@@ -1,181 +1,347 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>音频编辑器 - 剪切与合并</title>
-    <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
     <div class="app-container">
-        <header class="app-header">
-            <h1>🎵 音频编辑器</h1>
-            <p>支持音频剪切、合并，纯本地处理</p>
-        </header>
+      <header class="app-header">
+        <h1>🎵 音频编辑器</h1>
+        <p>支持音频剪切、合并，纯本地处理</p>
+      </header>
 
-        <main class="main-content">
-            <!-- 标签页导航 -->
-            <nav class="tab-nav">
-                <button class="tab-btn active" data-tab="cut">音频剪切</button>
-                <button class="tab-btn" data-tab="merge">音频合并</button>
-            </nav>
+      <main class="main-content">
+        <!-- 标签页导航 -->
+        <nav class="tab-nav">
+          <button class="tab-btn active" data-tab="cut">音频剪切</button>
+          <button class="tab-btn" data-tab="merge">音频合并</button>
+        </nav>
 
-            <!-- 剪切面板 -->
-            <section id="cut-panel" class="panel active">
-                <div class="upload-area" id="cut-upload-area">
-                    <input type="file" id="cut-file-input" accept="audio/*" hidden>
-                    <div class="upload-content">
-                        <span class="upload-icon">📁</span>
-                        <p>点击或拖拽音频文件到此处</p>
-                        <p class="upload-hint">支持 MP3、WAV、OGG 等格式</p>
-                    </div>
+        <!-- 剪切面板 -->
+        <section id="cut-panel" class="panel active">
+          <div class="upload-area" id="cut-upload-area">
+            <input type="file" id="cut-file-input" accept="audio/*" hidden />
+            <div class="upload-content">
+              <span class="upload-icon">📁</span>
+              <p>点击或拖拽音频文件到此处</p>
+              <p class="upload-hint">支持 MP3、WAV、OGG 等格式</p>
+            </div>
+          </div>
+
+          <div class="audio-workspace" id="cut-workspace" style="display: none">
+            <div class="file-info" id="cut-file-info"></div>
+
+            <div class="waveform-container">
+              <canvas id="cut-waveform" class="waveform-canvas"></canvas>
+              <div class="selection-overlay" id="cut-selection"></div>
+              <div class="playhead" id="cut-playhead"></div>
+            </div>
+
+            <div class="time-display">
+              <span id="cut-current-time">00:00.000</span>
+              <span>/</span>
+              <span id="cut-duration">00:00.000</span>
+            </div>
+
+            <div class="controls">
+              <button class="btn btn-icon" id="cut-play-btn" title="播放/暂停">
+                ▶
+              </button>
+              <button class="btn btn-icon" id="cut-stop-btn" title="停止">
+                ⏹
+              </button>
+            </div>
+
+            <div class="selection-controls">
+              <div class="input-group">
+                <label>开始时间 (秒)</label>
+                <input
+                  type="number"
+                  id="cut-start-time"
+                  min="0"
+                  step="0.001"
+                  value="0"
+                />
+              </div>
+              <div class="input-group">
+                <label>结束时间 (秒)</label>
+                <input
+                  type="number"
+                  id="cut-end-time"
+                  min="0"
+                  step="0.001"
+                  value="0"
+                />
+              </div>
+              <button class="btn btn-primary" id="cut-preview-btn">
+                预览选区
+              </button>
+            </div>
+
+            <div class="equalizer-section" id="cut-equalizer">
+              <div class="equalizer-controls">
+                <div class="eq-band">
+                  <label class="eq-label">低频</label>
+                  <div class="eq-slider-container">
+                    <input
+                      type="range"
+                      class="eq-slider"
+                      id="cut-eq-low"
+                      min="-12"
+                      max="12"
+                      step="0.5"
+                      value="0"
+                      orient="vertical"
+                    />
+                    <span class="eq-value" id="cut-eq-low-value">0 dB</span>
+                  </div>
                 </div>
-
-                <div class="audio-workspace" id="cut-workspace" style="display: none;">
-                    <div class="file-info" id="cut-file-info"></div>
-                    
-                    <div class="waveform-container">
-                        <canvas id="cut-waveform" class="waveform-canvas"></canvas>
-                        <div class="selection-overlay" id="cut-selection"></div>
-                        <div class="playhead" id="cut-playhead"></div>
-                    </div>
-
-                    <div class="time-display">
-                        <span id="cut-current-time">00:00.000</span>
-                        <span>/</span>
-                        <span id="cut-duration">00:00.000</span>
-                    </div>
-
-                    <div class="controls">
-                        <button class="btn btn-icon" id="cut-play-btn" title="播放/暂停">▶</button>
-                        <button class="btn btn-icon" id="cut-stop-btn" title="停止">⏹</button>
-                    </div>
-
-                    <div class="selection-controls">
-                        <div class="input-group">
-                            <label>开始时间 (秒)</label>
-                            <input type="number" id="cut-start-time" min="0" step="0.001" value="0">
-                        </div>
-                        <div class="input-group">
-                            <label>结束时间 (秒)</label>
-                            <input type="number" id="cut-end-time" min="0" step="0.001" value="0">
-                        </div>
-                        <button class="btn btn-primary" id="cut-preview-btn">预览选区</button>
-                    </div>
-
-                    <div class="export-section">
-                        <div class="custom-select" id="cut-format-wrapper">
-                            <div class="custom-select-trigger">
-                                <span>WAV 格式</span>
-                                <div class="custom-select-arrow">▼</div>
-                            </div>
-                            <div class="custom-select-options">
-                                <div class="custom-select-option" data-value="wav">WAV 格式</div>
-                                <div class="custom-select-option" data-value="mp3">MP3 格式</div>
-                            </div>
-                        </div>
-                        <input type="hidden" id="cut-format" value="wav">
-                        <button class="btn btn-success" id="cut-export-btn">导出剪切音频</button>
-                    </div>
+                <div class="eq-band">
+                  <label class="eq-label">中频</label>
+                  <div class="eq-slider-container">
+                    <input
+                      type="range"
+                      class="eq-slider"
+                      id="cut-eq-mid"
+                      min="-12"
+                      max="12"
+                      step="0.5"
+                      value="0"
+                      orient="vertical"
+                    />
+                    <span class="eq-value" id="cut-eq-mid-value">0 dB</span>
+                  </div>
                 </div>
-            </section>
-
-            <!-- 合并面板 -->
-            <section id="merge-panel" class="panel">
-                <div class="merge-tracks">
-                    <div class="track-item">
-                        <h3>音频 1</h3>
-                        <div class="upload-area small" id="merge-upload-1">
-                            <input type="file" id="merge-file-1" accept="audio/*" hidden>
-                            <div class="upload-content">
-                                <span class="upload-icon">📁</span>
-                                <p>点击上传第一个音频</p>
-                            </div>
-                        </div>
-                        <div class="track-info" id="merge-info-1" style="display: none;">
-                            <canvas id="merge-waveform-1" class="waveform-canvas small"></canvas>
-                            <div class="track-details">
-                                <span class="track-name" id="merge-name-1"></span>
-                                <span class="track-duration" id="merge-duration-1"></span>
-                                <button class="btn btn-small btn-danger" id="merge-remove-1">移除</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="track-item">
-                        <h3>音频 2</h3>
-                        <div class="upload-area small" id="merge-upload-2">
-                            <input type="file" id="merge-file-2" accept="audio/*" hidden>
-                            <div class="upload-content">
-                                <span class="upload-icon">📁</span>
-                                <p>点击上传第二个音频</p>
-                            </div>
-                        </div>
-                        <div class="track-info" id="merge-info-2" style="display: none;">
-                            <canvas id="merge-waveform-2" class="waveform-canvas small"></canvas>
-                            <div class="track-details">
-                                <span class="track-name" id="merge-name-2"></span>
-                                <span class="track-duration" id="merge-duration-2"></span>
-                                <button class="btn btn-small btn-danger" id="merge-remove-2">移除</button>
-                            </div>
-                        </div>
-                    </div>
+                <div class="eq-band">
+                  <label class="eq-label">高频</label>
+                  <div class="eq-slider-container">
+                    <input
+                      type="range"
+                      class="eq-slider"
+                      id="cut-eq-high"
+                      min="-12"
+                      max="12"
+                      step="0.5"
+                      value="0"
+                      orient="vertical"
+                    />
+                    <span class="eq-value" id="cut-eq-high-value">0 dB</span>
+                  </div>
                 </div>
+                <button class="btn btn-small eq-reset-btn" id="cut-eq-reset">
+                  重置
+                </button>
+              </div>
+            </div>
 
-                <div class="merge-options">
-                    <div class="radio-group">
-                        <label class="radio-item">
-                            <input type="radio" name="merge-mode" value="concat" checked>
-                            <span>顺序拼接</span>
-                            <small>音频1播放完后播放音频2</small>
-                        </label>
-                        <label class="radio-item">
-                            <input type="radio" name="merge-mode" value="mix">
-                            <span>混音叠加</span>
-                            <small>两个音频同时播放</small>
-                        </label>
-                    </div>
+            <div class="export-section">
+              <div class="custom-select" id="cut-format-wrapper">
+                <div class="custom-select-trigger">
+                  <span>WAV 格式</span>
+                  <div class="custom-select-arrow">▼</div>
                 </div>
-
-                <div class="merge-preview" id="merge-preview" style="display: none;">
-                    <canvas id="merge-result-waveform" class="waveform-canvas"></canvas>
-                    <div class="time-display">
-                        <span id="merge-current-time">00:00.000</span>
-                        <span>/</span>
-                        <span id="merge-duration">00:00.000</span>
-                    </div>
-                    <div class="controls">
-                        <button class="btn btn-icon" id="merge-play-btn" title="播放/暂停">▶</button>
-                        <button class="btn btn-icon" id="merge-stop-btn" title="停止">⏹</button>
-                    </div>
+                <div class="custom-select-options">
+                  <div class="custom-select-option" data-value="wav">
+                    WAV 格式
+                  </div>
+                  <div class="custom-select-option" data-value="mp3">
+                    MP3 格式
+                  </div>
                 </div>
+              </div>
+              <input type="hidden" id="cut-format" value="wav" />
+              <button class="btn btn-success" id="cut-export-btn">
+                导出剪切音频
+              </button>
+            </div>
+          </div>
+        </section>
 
-                <div class="export-section">
-                    <button class="btn btn-primary" id="merge-preview-btn" disabled>预览合并效果</button>
-                    <div class="custom-select" id="merge-format-wrapper">
-                        <div class="custom-select-trigger">
-                            <span>WAV 格式</span>
-                            <div class="custom-select-arrow">▼</div>
-                        </div>
-                        <div class="custom-select-options">
-                            <div class="custom-select-option" data-value="wav">WAV 格式</div>
-                            <div class="custom-select-option" data-value="mp3">MP3 格式</div>
-                        </div>
-                    </div>
-                    <input type="hidden" id="merge-format" value="wav">
-                    <button class="btn btn-success" id="merge-export-btn" disabled>导出合并音频</button>
+        <!-- 合并面板 -->
+        <section id="merge-panel" class="panel">
+          <div class="merge-tracks">
+            <div class="track-item">
+              <h3>音频 1</h3>
+              <div class="upload-area small" id="merge-upload-1">
+                <input type="file" id="merge-file-1" accept="audio/*" hidden />
+                <div class="upload-content">
+                  <span class="upload-icon">📁</span>
+                  <p>点击上传第一个音频</p>
                 </div>
-            </section>
-        </main>
+              </div>
+              <div class="track-info" id="merge-info-1" style="display: none">
+                <canvas
+                  id="merge-waveform-1"
+                  class="waveform-canvas small"
+                ></canvas>
+                <div class="track-details">
+                  <span class="track-name" id="merge-name-1"></span>
+                  <span class="track-duration" id="merge-duration-1"></span>
+                  <button class="btn btn-small btn-danger" id="merge-remove-1">
+                    移除
+                  </button>
+                </div>
+              </div>
+            </div>
 
-        <!-- 加载提示 -->
-        <div class="loading-overlay" id="loading" style="display: none;">
-            <div class="loading-spinner"></div>
-            <p id="loading-text">处理中...</p>
-        </div>
+            <div class="track-item">
+              <h3>音频 2</h3>
+              <div class="upload-area small" id="merge-upload-2">
+                <input type="file" id="merge-file-2" accept="audio/*" hidden />
+                <div class="upload-content">
+                  <span class="upload-icon">📁</span>
+                  <p>点击上传第二个音频</p>
+                </div>
+              </div>
+              <div class="track-info" id="merge-info-2" style="display: none">
+                <canvas
+                  id="merge-waveform-2"
+                  class="waveform-canvas small"
+                ></canvas>
+                <div class="track-details">
+                  <span class="track-name" id="merge-name-2"></span>
+                  <span class="track-duration" id="merge-duration-2"></span>
+                  <button class="btn btn-small btn-danger" id="merge-remove-2">
+                    移除
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
 
-        <!-- 消息提示 -->
-        <div class="toast-container" id="toast-container"></div>
+          <div class="merge-options">
+            <div class="radio-group">
+              <label class="radio-item">
+                <input type="radio" name="merge-mode" value="concat" checked />
+                <span>顺序拼接</span>
+                <small>音频1播放完后播放音频2</small>
+              </label>
+              <label class="radio-item">
+                <input type="radio" name="merge-mode" value="mix" />
+                <span>混音叠加</span>
+                <small>两个音频同时播放</small>
+              </label>
+            </div>
+          </div>
+
+          <div class="merge-preview" id="merge-preview" style="display: none">
+            <canvas id="merge-result-waveform" class="waveform-canvas"></canvas>
+            <div class="time-display">
+              <span id="merge-current-time">00:00.000</span>
+              <span>/</span>
+              <span id="merge-duration">00:00.000</span>
+            </div>
+            <div class="controls">
+              <button
+                class="btn btn-icon"
+                id="merge-play-btn"
+                title="播放/暂停"
+              >
+                ▶
+              </button>
+              <button class="btn btn-icon" id="merge-stop-btn" title="停止">
+                ⏹
+              </button>
+            </div>
+          </div>
+
+          <div
+            class="equalizer-section"
+            id="merge-equalizer"
+            style="display: none"
+          >
+            <div class="equalizer-controls">
+              <div class="eq-band">
+                <label class="eq-label">低频</label>
+                <div class="eq-slider-container">
+                  <input
+                    type="range"
+                    class="eq-slider"
+                    id="merge-eq-low"
+                    min="-12"
+                    max="12"
+                    step="0.5"
+                    value="0"
+                    orient="vertical"
+                  />
+                  <span class="eq-value" id="merge-eq-low-value">0 dB</span>
+                </div>
+              </div>
+              <div class="eq-band">
+                <label class="eq-label">中频</label>
+                <div class="eq-slider-container">
+                  <input
+                    type="range"
+                    class="eq-slider"
+                    id="merge-eq-mid"
+                    min="-12"
+                    max="12"
+                    step="0.5"
+                    value="0"
+                    orient="vertical"
+                  />
+                  <span class="eq-value" id="merge-eq-mid-value">0 dB</span>
+                </div>
+              </div>
+              <div class="eq-band">
+                <label class="eq-label">高频</label>
+                <div class="eq-slider-container">
+                  <input
+                    type="range"
+                    class="eq-slider"
+                    id="merge-eq-high"
+                    min="-12"
+                    max="12"
+                    step="0.5"
+                    value="0"
+                    orient="vertical"
+                  />
+                  <span class="eq-value" id="merge-eq-high-value">0 dB</span>
+                </div>
+              </div>
+              <button class="btn btn-small eq-reset-btn" id="merge-eq-reset">
+                重置
+              </button>
+            </div>
+          </div>
+
+          <div class="export-section">
+            <button class="btn btn-primary" id="merge-preview-btn" disabled>
+              预览合并效果
+            </button>
+            <div class="custom-select" id="merge-format-wrapper">
+              <div class="custom-select-trigger">
+                <span>WAV 格式</span>
+                <div class="custom-select-arrow">▼</div>
+              </div>
+              <div class="custom-select-options">
+                <div class="custom-select-option" data-value="wav">
+                  WAV 格式
+                </div>
+                <div class="custom-select-option" data-value="mp3">
+                  MP3 格式
+                </div>
+              </div>
+            </div>
+            <input type="hidden" id="merge-format" value="wav" />
+            <button class="btn btn-success" id="merge-export-btn" disabled>
+              导出合并音频
+            </button>
+          </div>
+        </section>
+      </main>
+
+      <!-- 加载提示 -->
+      <div class="loading-overlay" id="loading" style="display: none">
+        <div class="loading-spinner"></div>
+        <p id="loading-text">处理中...</p>
+      </div>
+
+      <!-- 消息提示 -->
+      <div class="toast-container" id="toast-container"></div>
     </div>
 
     <script src="libs/lame.min.js"></script>
@@ -184,5 +350,5 @@
     <script src="js/exporter.js"></script>
     <script src="js/ui.js"></script>
     <script src="js/app.js"></script>
-</body>
+  </body>
 </html>
