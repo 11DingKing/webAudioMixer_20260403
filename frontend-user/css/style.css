@@ -1,0 +1,1365 @@
+/* ========== CSS Variables - Pro Audio Editor Theme ========== */
+:root {
+    /* 主色调 - 专业音频软件风格 */
+    --primary: #00d4aa;
+    --primary-hover: #00b894;
+    --primary-glow: rgba(0, 212, 170, 0.3);
+    --accent: #6c5ce7;
+    --accent-hover: #5b4cdb;
+    
+    /* 功能色 */
+    --success: #00b894;
+    --warning: #fdcb6e;
+    --danger: #ff7675;
+    --info: #74b9ff;
+    
+    /* 背景层次 - 深色专业风格 */
+    --bg-darkest: #050508;
+    --bg-darker: #12121a;
+    --bg-dark: #1a1a24;
+    --bg-medium: #242432;
+    --bg-light: #2d2d3d;
+    --bg-lighter: #3a3a4d;
+    
+    /* 功能区域专用背景 */
+    --bg-upload-area: #0f0f18;
+    --bg-workspace: #181825;
+    --bg-controls: #1e1e2c;
+    --bg-waveform: #0d0d16;
+    --bg-info-panel: #1a1a27;
+    
+    /* 文字 */
+    --text-primary: #ffffff;
+    --text-secondary: #e0e0e8;
+    --text-muted: #a0a0b0;
+    --text-dim: #808090;
+    
+    /* 边框 */
+    --border-dark: #1e1e2a;
+    --border-medium: #2a2a3a;
+    --border-light: #3a3a4d;
+    --border-glow: var(--primary);
+    
+    /* 功能区域专用边框 */
+    --border-upload: #2a2a3a;
+    --border-workspace: #3a3a4d;
+    --border-controls: #404050;
+    --border-waveform: #2d2d3d;
+    
+    /* 波形专用 */
+    --waveform-bg: linear-gradient(180deg, #0d0d14 0%, #141420 100%);
+    --waveform-color: #00d4aa;
+    --waveform-color-alt: #00b894;
+    --waveform-grid: rgba(255, 255, 255, 0.03);
+    --selection-bg: rgba(0, 212, 170, 0.15);
+    --selection-border: rgba(0, 212, 170, 0.6);
+    --playhead: #ff6b6b;
+    --playhead-glow: rgba(255, 107, 107, 0.5);
+    
+    /* 效果 */
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+    --shadow-glow: 0 0 20px var(--primary-glow);
+    
+    /* 功能区域专用阴影 */
+    --shadow-upload: 0 4px 16px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    --shadow-workspace: 0 8px 24px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.03);
+    --shadow-controls: 0 2px 8px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    --shadow-waveform: inset 0 2px 8px rgba(0, 0, 0, 0.6), 0 1px 0 rgba(255, 255, 255, 0.02);
+    --shadow-info: 0 2px 12px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(0, 212, 170, 0.1);
+    
+    /* 圆角 */
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
+    
+    /* 过渡 */
+    --transition-fast: 0.15s ease;
+    --transition-normal: 0.25s ease;
+    --transition-slow: 0.4s ease;
+}
+
+/* ========== Reset & Base ========== */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 15px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg-darkest);
+    color: var(--text-primary);
+    line-height: 1.5;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* 背景纹理和渐变 */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        linear-gradient(135deg, #030306 0%, #070709 25%, #050508 50%, #060608 75%, #040405 100%),
+        radial-gradient(ellipse at 20% 20%, rgba(0, 212, 170, 0.02) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 80%, rgba(108, 92, 231, 0.02) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* 添加微妙的噪点纹理 */
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(circle at 1px 1px, rgba(255,255,255,0.02) 1px, transparent 0);
+    background-size: 20px 20px;
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* ========== App Container ========== */
+.app-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 24px 32px;
+    min-height: 100vh;
+    background: rgba(12, 12, 18, 0.6);
+    backdrop-filter: blur(2px);
+    border-radius: var(--radius-xl);
+    border: 1px solid rgba(255, 255, 255, 0.02);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* ========== Header ========== */
+.app-header {
+    text-align: center;
+    padding: 40px 0 32px;
+    margin-bottom: 32px;
+    position: relative;
+}
+
+.app-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border-medium), transparent);
+}
+
+.app-header h1 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 10px;
+    background: linear-gradient(135deg, var(--text-primary) 0%, var(--primary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.app-header p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    font-weight: 400;
+}
+
+
+/* ========== Tab Navigation ========== */
+.tab-nav {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 24px;
+    background: var(--bg-controls);
+    padding: 8px;
+    border-radius: var(--radius-lg);
+    border: 2px solid var(--border-controls);
+    box-shadow: var(--shadow-controls);
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 14px 28px;
+    background: transparent;
+    border: none;
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition-normal);
+    position: relative;
+    overflow: hidden;
+}
+
+.tab-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    opacity: 0;
+    transition: var(--transition-normal);
+}
+
+.tab-btn span {
+    position: relative;
+    z-index: 1;
+}
+
+.tab-btn:hover {
+    color: var(--text-primary);
+}
+
+.tab-btn.active {
+    background: var(--bg-workspace);
+    color: var(--text-primary);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-workspace);
+}
+
+.tab-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 2px;
+    background: var(--primary);
+    border-radius: 2px;
+}
+
+/* ========== Panels ========== */
+.panel {
+    display: none;
+    background: var(--bg-workspace);
+    border-radius: var(--radius-xl);
+    padding: 32px;
+    border: 2px solid var(--border-workspace);
+    box-shadow: var(--shadow-workspace);
+    position: relative;
+}
+
+.panel::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+}
+
+.panel.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ========== Upload Area ========== */
+.upload-area {
+    border: 3px dashed var(--border-upload);
+    border-radius: var(--radius-lg);
+    padding: 60px 40px;
+    text-align: center;
+    cursor: pointer;
+    transition: var(--transition-normal);
+    background: var(--bg-upload-area);
+    box-shadow: var(--shadow-upload);
+    position: relative;
+    overflow: hidden;
+}
+
+.upload-area::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, var(--primary-glow) 0%, transparent 70%);
+    opacity: 0;
+    transition: var(--transition-normal);
+}
+
+.upload-area::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--primary), transparent);
+    opacity: 0;
+    transition: var(--transition-normal);
+}
+
+.upload-area:hover,
+.upload-area.dragover {
+    border-color: var(--primary);
+    background: var(--bg-dark);
+    box-shadow: var(--shadow-upload), 0 0 20px var(--primary-glow);
+}
+
+.upload-area:hover::before,
+.upload-area.dragover::before {
+    opacity: 1;
+}
+
+.upload-area:hover::after,
+.upload-area.dragover::after {
+    opacity: 1;
+}
+
+.upload-area.small {
+    padding: 36px 24px;
+    border-width: 2px;
+}
+
+.upload-content {
+    pointer-events: none;
+    position: relative;
+    z-index: 1;
+}
+
+.upload-icon {
+    font-size: 3.5rem;
+    display: block;
+    margin-bottom: 16px;
+    filter: grayscale(0.3);
+    transition: var(--transition-normal);
+}
+
+.upload-area:hover .upload-icon {
+    filter: grayscale(0);
+    transform: scale(1.1);
+}
+
+.upload-area.small .upload-icon {
+    font-size: 2.2rem;
+    margin-bottom: 12px;
+}
+
+.upload-area p {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.upload-hint {
+    color: var(--text-dim) !important;
+    font-size: 0.85rem !important;
+    margin-top: 8px;
+    font-weight: 400 !important;
+}
+
+/* ========== Audio Workspace ========== */
+.audio-workspace {
+    margin-top: 28px;
+    background: var(--bg-workspace);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    border: 2px solid var(--border-workspace);
+    box-shadow: var(--shadow-workspace);
+}
+
+.file-info {
+    background: var(--bg-info-panel);
+    padding: 16px 24px;
+    border-radius: var(--radius-md);
+    margin-bottom: 24px;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    border: 1px solid var(--border-controls);
+    box-shadow: var(--shadow-info);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    position: relative;
+}
+
+.file-info::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: linear-gradient(180deg, var(--primary), var(--accent));
+    border-radius: var(--radius-md) 0 0 var(--radius-md);
+}
+
+.file-info strong {
+    color: var(--primary);
+    font-weight: 600;
+}
+
+/* ========== Waveform Container ========== */
+.waveform-container {
+    position: relative;
+    background: var(--bg-waveform);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    margin-bottom: 24px;
+    border: 2px solid var(--border-waveform);
+    box-shadow: var(--shadow-waveform);
+}
+
+/* 网格背景 */
+.waveform-container::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: 
+        linear-gradient(var(--waveform-grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--waveform-grid) 1px, transparent 1px);
+    background-size: 50px 25px;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* 中心线 */
+.waveform-container::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.08);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.waveform-canvas {
+    width: 100%;
+    height: 160px;
+    display: block;
+    position: relative;
+    z-index: 2;
+}
+
+.waveform-canvas.small {
+    height: 90px;
+}
+
+.selection-overlay {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    background: var(--selection-bg);
+    border-left: 2px solid var(--selection-border);
+    border-right: 2px solid var(--selection-border);
+    pointer-events: none;
+    display: none;
+    z-index: 3;
+}
+
+.playhead {
+    position: absolute;
+    top: 0;
+    width: 2px;
+    height: 100%;
+    background: var(--playhead);
+    box-shadow: 0 0 10px var(--playhead-glow);
+    pointer-events: none;
+    display: none;
+    z-index: 4;
+}
+
+.playhead::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -4px;
+    width: 10px;
+    height: 10px;
+    background: var(--playhead);
+    border-radius: 50%;
+}
+
+/* ========== Time Display ========== */
+.time-display {
+    text-align: center;
+    font-family: 'JetBrains Mono', 'SF Mono', 'Consolas', monospace;
+    font-size: 1.4rem;
+    font-weight: 500;
+    margin-bottom: 24px;
+    color: var(--text-primary);
+    letter-spacing: 1px;
+    padding: 16px 24px;
+    background: var(--bg-controls);
+    border-radius: var(--radius-md);
+    border: 2px solid var(--border-controls);
+    box-shadow: var(--shadow-controls);
+    position: relative;
+}
+
+.time-display::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--primary), transparent);
+    border-radius: 0 0 2px 2px;
+}
+
+.time-display span:first-child {
+    color: var(--primary);
+}
+
+.time-display span:nth-child(2) {
+    color: var(--text-dim);
+    margin: 0 8px;
+}
+
+/* ========== Controls ========== */
+.controls {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 28px;
+    padding: 20px;
+    background: var(--bg-controls);
+    border-radius: var(--radius-lg);
+    border: 2px solid var(--border-controls);
+    box-shadow: var(--shadow-controls);
+}
+
+/* ========== Buttons ========== */
+.btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition-fast);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(255,255,255,0.1) 0%, transparent 50%);
+    opacity: 0;
+    transition: var(--transition-fast);
+}
+
+.btn:hover::before {
+    opacity: 1;
+}
+
+.btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    filter: grayscale(0.5);
+}
+
+.btn:active:not(:disabled) {
+    transform: scale(0.97);
+}
+
+.btn-icon {
+    width: 52px;
+    height: 52px;
+    padding: 0;
+    background: var(--bg-medium);
+    color: var(--text-primary);
+    font-size: 1.3rem;
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-lg);
+}
+
+.btn-icon:hover:not(:disabled) {
+    background: var(--primary);
+    border-color: var(--primary);
+    box-shadow: var(--shadow-glow);
+    color: var(--bg-darkest);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
+    color: var(--bg-darkest);
+    font-weight: 600;
+}
+
+.btn-primary:hover:not(:disabled) {
+    box-shadow: var(--shadow-glow);
+    transform: translateY(-1px);
+}
+
+.btn-success {
+    background: linear-gradient(135deg, var(--success) 0%, #00a884 100%);
+    color: var(--bg-darkest);
+    font-weight: 600;
+}
+
+.btn-success:hover:not(:disabled) {
+    box-shadow: 0 0 20px rgba(0, 184, 148, 0.4);
+    transform: translateY(-1px);
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, var(--danger) 0%, #e55555 100%);
+    color: white;
+}
+
+.btn-danger:hover:not(:disabled) {
+    box-shadow: 0 0 20px rgba(255, 118, 117, 0.4);
+}
+
+.btn-small {
+    padding: 8px 14px;
+    font-size: 0.85rem;
+    border-radius: var(--radius-sm);
+}
+
+/* ========== Selection Controls ========== */
+.selection-controls {
+    display: flex;
+    gap: 20px;
+    align-items: flex-end;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+    padding: 24px;
+    background: var(--bg-controls);
+    border-radius: var(--radius-lg);
+    border: 2px solid var(--border-controls);
+    box-shadow: var(--shadow-controls);
+    position: relative;
+}
+
+.selection-controls::before {
+    content: '选区设置';
+    position: absolute;
+    top: -12px;
+    left: 20px;
+    background: var(--bg-controls);
+    padding: 4px 12px;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-controls);
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.input-group label {
+    font-size: 0.8rem;
+    color: var(--text-primary);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.input-group input,
+.input-group select {
+    padding: 12px 14px;
+    background: var(--bg-dark);
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    font-family: 'JetBrains Mono', monospace;
+    width: 160px;
+    transition: var(--transition-fast);
+}
+
+/* 隐藏 number 输入框的上下箭头 */
+.input-group input[type="number"]::-webkit-inner-spin-button,
+.input-group input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.input-group input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+.input-group input:focus,
+.input-group select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-glow);
+}
+
+/* ========== Export Section ========== */
+.export-section {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    padding: 28px;
+    margin-top: 28px;
+    background: var(--bg-controls);
+    border-radius: var(--radius-lg);
+    border: 2px solid var(--border-controls);
+    box-shadow: var(--shadow-controls);
+    flex-wrap: wrap;
+    position: relative;
+}
+
+.export-section::before {
+    content: '导出设置';
+    position: absolute;
+    top: -12px;
+    left: 20px;
+    background: var(--bg-controls);
+    padding: 4px 12px;
+    font-size: 0.75rem;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-controls);
+    z-index: 10;
+}
+
+.export-section > * {
+    flex: 1;
+    min-width: 180px;
+}
+
+/* ========== Custom Select ========== */
+.custom-select {
+    position: relative;
+    user-select: none;
+}
+
+.custom-select-trigger {
+    padding: 12px 16px;
+    background: var(--bg-lighter);
+    border: 2px solid var(--border-light);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition-fast);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    width: 100%;
+}
+
+.custom-select-trigger:hover {
+    border-color: var(--primary);
+    background: var(--bg-light);
+    box-shadow: 0 2px 12px rgba(0, 212, 170, 0.2);
+}
+
+.custom-select.active .custom-select-trigger {
+    border-color: var(--primary);
+    background: var(--bg-light);
+    box-shadow: 0 0 0 3px var(--primary-glow);
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    border-bottom: none;
+}
+
+.custom-select-arrow {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    transition: var(--transition-fast);
+}
+
+.custom-select.active .custom-select-arrow {
+    transform: rotate(180deg);
+    color: var(--primary);
+}
+
+.custom-select-options {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--bg-lighter);
+    border: 2px solid var(--primary);
+    border-top: none;
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.25s ease, opacity 0.15s ease;
+    opacity: 0;
+    z-index: 100;
+}
+
+.custom-select.active .custom-select-options {
+    max-height: 300px;
+    opacity: 1;
+}
+
+.custom-select-option {
+    padding: 12px 16px;
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+.custom-select-option:hover {
+    background: var(--bg-light);
+    color: var(--primary);
+}
+
+.custom-select-option.selected {
+    background: var(--bg-medium);
+    color: var(--primary);
+    font-weight: 600;
+    border-left: 3px solid var(--primary);
+}
+
+/* ========== Merge Panel ========== */
+.merge-tracks {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 28px;
+    margin-bottom: 32px;
+}
+
+.track-item {
+    background: var(--bg-controls);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    border: 2px solid var(--border-controls);
+    box-shadow: var(--shadow-controls);
+    transition: var(--transition-normal);
+    position: relative;
+}
+
+.track-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+.track-item:hover {
+    border-color: var(--primary);
+    box-shadow: var(--shadow-controls), 0 0 20px var(--primary-glow);
+}
+
+.track-item h3 {
+    margin-bottom: 16px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.track-item h3::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    background: var(--primary);
+    border-radius: 50%;
+}
+
+.track-info {
+    margin-top: 16px;
+}
+
+.track-details {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 16px;
+    padding: 16px;
+    border-top: 2px solid var(--border-dark);
+    background: var(--bg-upload-area);
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+    flex-wrap: wrap;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.track-name {
+    font-weight: 500;
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--text-secondary);
+}
+
+.track-duration {
+    color: var(--primary);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
+    font-weight: 600;
+    background: var(--bg-dark);
+    padding: 6px 12px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-medium);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* ========== Merge Options ========== */
+.merge-options {
+    background: var(--bg-controls);
+    padding: 28px;
+    border-radius: var(--radius-lg);
+    margin-bottom: 32px;
+    border: 2px solid var(--border-controls);
+    box-shadow: var(--shadow-controls);
+    position: relative;
+}
+
+.merge-options::before {
+    content: '合并模式';
+    position: absolute;
+    top: -12px;
+    left: 20px;
+    background: var(--bg-controls);
+    padding: 4px 12px;
+    font-size: 0.75rem;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-controls);
+}
+
+.merge-options h3 {
+    margin-bottom: 18px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.radio-group {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.radio-item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    cursor: pointer;
+    padding: 20px 24px;
+    background: var(--bg-upload-area);
+    border-radius: var(--radius-lg);
+    border: 2px solid var(--border-upload);
+    box-shadow: var(--shadow-upload);
+    transition: var(--transition-normal);
+    flex: 1;
+    min-width: 220px;
+    position: relative;
+    overflow: hidden;
+}
+
+.radio-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--primary);
+    opacity: 0;
+    transition: var(--transition-normal);
+}
+
+.radio-item:hover {
+    border-color: var(--border-medium);
+    background: var(--bg-dark);
+    box-shadow: var(--shadow-upload), 0 0 15px rgba(0, 212, 170, 0.1);
+}
+
+.radio-item:has(input:checked) {
+    border-color: var(--primary);
+    background: var(--bg-dark);
+    box-shadow: var(--shadow-upload), 0 0 20px var(--primary-glow);
+}
+
+.radio-item:has(input:checked)::before {
+    opacity: 1;
+}
+
+.radio-item input {
+    display: none;
+}
+
+.radio-item span {
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 1rem;
+}
+
+.radio-item small {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    line-height: 1.4;
+}
+
+/* ========== Merge Preview ========== */
+.merge-preview {
+    margin-bottom: 32px;
+    background: var(--bg-workspace);
+    padding: 28px;
+    padding-top: 36px;
+    border-radius: var(--radius-lg);
+    border: 2px solid var(--border-workspace);
+    box-shadow: var(--shadow-workspace);
+    position: relative;
+}
+
+.merge-preview::before {
+    content: '合并预览';
+    position: absolute;
+    top: -12px;
+    left: 20px;
+    background: var(--bg-workspace);
+    padding: 4px 12px;
+    font-size: 0.75rem;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-workspace);
+    z-index: 10;
+}
+
+.merge-preview::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--info), var(--primary));
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    z-index: 1;
+}
+
+.merge-preview h3 {
+    margin-bottom: 18px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: none;
+}
+
+.merge-preview h3::before {
+    content: '▶';
+    color: var(--primary);
+    font-size: 0.7rem;
+}
+
+/* ========== Loading Overlay ========== */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(10, 10, 15, 0.95);
+    backdrop-filter: blur(8px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.loading-spinner {
+    width: 56px;
+    height: 56px;
+    border: 3px solid var(--border-medium);
+    border-top-color: var(--primary);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin-bottom: 20px;
+    box-shadow: 0 0 20px var(--primary-glow);
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.loading-overlay p {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+/* ========== Toast Messages ========== */
+.toast-container {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 1001;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.toast {
+    padding: 16px 24px;
+    border-radius: var(--radius-lg);
+    color: white;
+    font-size: 0.95rem;
+    font-weight: 500;
+    box-shadow: var(--shadow-lg);
+    animation: toastIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    max-width: 380px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    backdrop-filter: blur(10px);
+}
+
+.toast::before {
+    font-size: 1.2rem;
+}
+
+.toast.success {
+    background: linear-gradient(135deg, rgba(0, 184, 148, 0.95) 0%, rgba(0, 168, 132, 0.95) 100%);
+}
+
+.toast.success::before {
+    content: '✓';
+}
+
+.toast.error {
+    background: linear-gradient(135deg, rgba(255, 118, 117, 0.95) 0%, rgba(229, 85, 85, 0.95) 100%);
+}
+
+.toast.error::before {
+    content: '✕';
+}
+
+.toast.info {
+    background: linear-gradient(135deg, rgba(116, 185, 255, 0.95) 0%, rgba(74, 144, 226, 0.95) 100%);
+}
+
+.toast.info::before {
+    content: 'ℹ';
+}
+
+@keyframes toastIn {
+    from {
+        transform: translateX(120%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* ========== Scrollbar ========== */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-darker);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--bg-lighter);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--border-light);
+}
+
+/* ========== Selection ========== */
+::selection {
+    background: var(--primary);
+    color: var(--bg-darkest);
+}
+
+/* ========== Responsive ========== */
+@media (max-width: 768px) {
+    .app-container {
+        padding: 16px;
+    }
+
+    .app-header {
+        padding: 28px 0 24px;
+    }
+
+    .app-header h1 {
+        font-size: 1.6rem;
+    }
+
+    .panel {
+        padding: 24px 20px;
+        border-radius: var(--radius-lg);
+        border-width: 1px;
+    }
+
+    .audio-workspace {
+        padding: 20px;
+        border-width: 1px;
+    }
+
+    .selection-controls,
+    .export-section,
+    .controls,
+    .merge-options,
+    .merge-preview {
+        padding: 20px;
+        border-width: 1px;
+    }
+
+    .track-item {
+        padding: 20px;
+        border-width: 1px;
+    }
+
+    .tab-nav {
+        flex-direction: column;
+    }
+
+    .tab-btn {
+        padding: 12px 20px;
+    }
+
+    .waveform-canvas {
+        height: 120px;
+    }
+
+    .time-display {
+        font-size: 1.1rem;
+    }
+
+    .selection-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .input-group input {
+        width: 100%;
+    }
+
+    .export-section {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .export-section .custom-select,
+    .export-section .btn {
+        width: 100%;
+    }
+
+    .radio-group {
+        flex-direction: column;
+    }
+
+    .merge-tracks {
+        grid-template-columns: 1fr;
+    }
+
+    .controls {
+        gap: 8px;
+    }
+
+    .btn-icon {
+        width: 46px;
+        height: 46px;
+    }
+}
+
+/* ========== Additional Visual Enhancements ========== */
+
+/* 为主要功能区域添加微妙的发光效果 */
+.panel:hover {
+    box-shadow: var(--shadow-workspace), 0 0 30px rgba(0, 212, 170, 0.05);
+}
+
+.waveform-container:hover {
+    box-shadow: var(--shadow-waveform), 0 0 25px rgba(0, 212, 170, 0.08);
+}
+
+.controls:hover {
+    box-shadow: var(--shadow-controls), 0 0 20px rgba(0, 212, 170, 0.06);
+}
+
+/* 为输入框添加聚焦时的区域高亮 */
+.input-group input:focus,
+.input-group select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-glow), inset 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* 为标签添加更好的视觉层次 */
+.selection-controls::before,
+.export-section::before,
+.merge-options::before,
+.merge-preview::before {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+}
+
+@keyframes glow {
+    0%, 100% { box-shadow: 0 0 5px var(--primary-glow); }
+    50% { box-shadow: 0 0 20px var(--primary-glow); }
+}
+
+/* 播放状态动画 */
+.btn-icon.playing {
+    animation: glow 1.5s ease-in-out infinite;
+}
+
+/* ========== Animations ========== */

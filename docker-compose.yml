@@ -1,0 +1,19 @@
+name: music-editor
+
+services:
+  audio-editor:
+    build:
+      context: ./frontend-user
+      dockerfile: Dockerfile
+    container_name: audio-editor
+    ports:
+      - "8081:80"
+    restart: unless-stopped
+    networks:
+      - audio-editor-network
+    labels:
+      - "com.audio-editor.description=音频编辑器 - 纯前端音频剪切与合并工具"
+
+networks:
+  audio-editor-network:
+    driver: bridge
