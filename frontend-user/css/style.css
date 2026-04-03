@@ -1515,9 +1515,19 @@ body::after {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 16px;
+  height: 200px;
+  justify-content: space-between;
+  position: relative;
+}
+
+.eq-slider-wrapper {
+  width: 40px;
   height: 160px;
+  display: flex;
+  align-items: center;
   justify-content: center;
+  position: relative;
 }
 
 .eq-slider {
@@ -1531,6 +1541,7 @@ body::after {
   transform: rotate(-90deg);
   transform-origin: center;
   border: 1px solid var(--border-medium);
+  position: absolute;
 }
 
 .eq-slider::-webkit-slider-thumb {
